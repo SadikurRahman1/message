@@ -6,11 +6,7 @@ class ContactsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const Text('Contacts'),
-      //   backgroundColor: AppColors.mainColor,
-      //   foregroundColor: Colors.white,
-      // ),
+     
       backgroundColor: const Color(0xFF00695C),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,16 +27,141 @@ class ContactsScreen extends StatelessWidget {
                   ),
                 ),
                 padding: const EdgeInsets.all(20),
-                child: Column(
-                  children: [
-                    CustomBorderedWidget(
-                      text: "HELLO WORLD",
-                      borderColor: Colors.teal, // কন্টেইনার বর্ডার সবুজ
-                      textColor: Colors.black, // টেক্সট হবে হলুদ
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Column(
+                    children: [
+                      // Table Header
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: CustomBorderedWidget(
+                              text: "Name",
+                              borderColor: Colors.teal,
+                              textColor: Colors.teal,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: 150,
+                            child: CustomBorderedWidget(
+                              text: "Phone",
+                              borderColor: Colors.teal,
+                              textColor: Colors.teal,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: 200,
+                            child: CustomBorderedWidget(
+                              text: "Email",
+                              borderColor: Colors.teal,
+                              textColor: Colors.teal,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          SizedBox(
+                            width: 100,
+                            child: CustomBorderedWidget(
+                              text: "Action",
+                              borderColor: Colors.teal,
+                              textColor: Colors.teal,
+                            ),
+                          ),
+                      ],
+                    ),
+                    
+                    const SizedBox(height: 16),
+                    
+                    // Table Body
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: CustomBorderedWidget(
+                            text: "John Doe",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 150,
+                          child: CustomBorderedWidget(
+                            text: "+880123456",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 200,
+                          child: CustomBorderedWidget(
+                            text: "john@mail.com",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 100,
+                          child: CustomBorderedWidget(
+                            text: "View",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    
+                    const SizedBox(height: 12),
+                    
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        SizedBox(
+                          width: 150,
+                          child: CustomBorderedWidget(
+                            text: "Jane Smith",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 150,
+                          child: CustomBorderedWidget(
+                            text: "+880987654",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 200,
+                          child: CustomBorderedWidget(
+                            text: "jane@mail.com",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        SizedBox(
+                          width: 100,
+                          child: CustomBorderedWidget(
+                            text: "View",
+                            borderColor: Colors.teal,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ),
+              ),)
             ],
           ),
         ),
@@ -58,18 +179,18 @@ class CustomBorderedWidget extends StatelessWidget {
   const CustomBorderedWidget({
     super.key,
     required this.text,
-    this.borderColor = Colors.blue, // কন্টেইনার বর্ডার কালার
-    this.textColor = Colors.white, // টেক্সটের ভেতরের কালar
+    this.borderColor = Colors.blue, 
+    this.textColor = Colors.white,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(color: borderColor, width: 2.5),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: borderColor, width: 2),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
@@ -78,27 +199,11 @@ class CustomBorderedWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: Center(
-        child: Stack(
-          children: [
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                foreground: Paint()..style = PaintingStyle.stroke,
-              ),
-            ),
-            Text(
-              text,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: textColor,
-              ),
-            ),
-          ],
-        ),
+      child: ResponsiveText(
+        text: text,
+        color: textColor,
+        fontSize: 14,
+        // fontWeight: FontWeight.bold,
       ),
     );
   }

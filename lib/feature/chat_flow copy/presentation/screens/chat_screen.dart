@@ -1,15 +1,18 @@
-import '../../../../core/exported_files/exported_file.dart';
+import 'package:message/feature/chat_flow/model/chat_models.dart';
+import 'package:message/feature/chat_flow/presentation/controllers/chat_controller.dart';
+import 'package:message/feature/chat_flow/presentation/widgets/message_bubble.dart';
+import 'package:message/feature/chat_flow/presentation/widgets/message_input_bar.dart';
 
+import '../../../../core/exported_files/exported_file.dart';
 
 class ChatScreen extends StatelessWidget {
   final ChatModel chat;
-
 
   const ChatScreen({super.key, required this.chat});
 
   @override
   Widget build(BuildContext context) {
-    // final controller = Get.find<ChatCont>?roller>();
+    final controller = Get.find<ChatController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -81,6 +84,8 @@ class ChatScreen extends StatelessWidget {
 
           // Message Input
           MessageInputBar(controller: controller),
+          
+
         ],
       ),
     );
