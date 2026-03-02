@@ -135,7 +135,7 @@ class RegistrationController extends GetxController {
 
         // Save auth token/uid to storage
         await stService.saveData(
-          AuthConstants.tokenKey,
+          AuthConstants.accessTokenKey,
           result['user'].uid,
         );
         DService().info("Token saved: ${result['user'].uid}");

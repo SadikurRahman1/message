@@ -23,13 +23,12 @@ class FirebaseAuthService {
   }) async {
     try {
       // Create user account
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
 
-      DService().info("Firebase Auth account created! User ID: ${userCredential.user!.uid}");
+      DService().info(
+        "Firebase Auth account created! User ID: ${userCredential.user!.uid}",
+      );
 
       // Update display name
       await userCredential.user?.updateDisplayName(name);
@@ -47,9 +46,14 @@ class FirebaseAuthService {
           'isOnline': true,
           'bio': 'Hey there! I am using Message app',
         });
+
+        await userCredential.user!.sendEmailVerification();
+
         DService().info("Firestore user profile created");
       } catch (firestoreError) {
-        DService().warning("Firestore save failed (database may not exist): $firestoreError");
+        DService().warning(
+          "Firestore save failed (database may not exist): $firestoreError",
+        );
         // Continue anyway - registration was successful even if Firestore save failed
       }
 
@@ -63,10 +67,7 @@ class FirebaseAuthService {
     } on FirebaseAuthException catch (e) {
       DService().error("Firebase Auth Error: ${e.code}");
       String errorMessage = _getAuthErrorMessage(e.code);
-      return {
-        'success': false,
-        'message': errorMessage,
-      };
+      return {'success': false, 'message': errorMessage};
     } catch (e) {
       DService().error("Registration Error: $e");
       return {
@@ -87,8 +88,14 @@ class FirebaseAuthService {
         password: password,
       );
 
-      DService(). info("Firebase Auth successful! User ID: ${userCredential.user!.uid}");
-      DService(). info("===============: ${userCredential.user}");
+      DService().info(
+        "Firebase Auth successful! User ID: ${userCredential.user!.uid}",
+      );
+      DService().info("===============: ${userCredential.user}");
+      DService().info("===============: ${userCredential.user!.refreshToken}");
+      DService().info("===============: ${userCredential.user!.phoneNumber}");
+      DService().info("===============: ${userCredential.user!.phoneNumber}");
+      DService().info("===============: ${userCredential.user!.photoURL}");
 
       // Try to update user online status (optional - won't fail if Firestore not setup)
       // try {
@@ -102,6 +109,16 @@ class FirebaseAuthService {
       //   // Continue anyway - login was successful even if Firestore update failed
       // }
 
+      User? user = FirebaseAuth.instance.currentUser;
+
+      await user?.reload(); // refresh user data
+      user = FirebaseAuth.instance.currentUser;
+
+      if (user!.emailVerified) {
+        print("Email Verified ✅");
+      } else {
+        await FirebaseAuth.instance.signOut();
+      }
       DService().info("Login successful!");
 
       return {
@@ -112,10 +129,7 @@ class FirebaseAuthService {
     } on FirebaseAuthException catch (e) {
       DService().error("Firebase Auth Error: ${e.code}");
       String errorMessage = _getAuthErrorMessage(e.code);
-      return {
-        'success': false,
-        'message': errorMessage,
-      };
+      return {'success': false, 'message': errorMessage};
     } catch (e) {
       DService().error("Login Error: $e");
       return {
@@ -154,10 +168,7 @@ class FirebaseAuthService {
       };
     } on FirebaseAuthException catch (e) {
       String errorMessage = _getAuthErrorMessage(e.code);
-      return {
-        'success': false,
-        'message': errorMessage,
-      };
+      return {'success': false, 'message': errorMessage};
     } catch (e) {
       return {
         'success': false,
@@ -175,16 +186,10 @@ class FirebaseAuthService {
         // Delete user account
         await currentUser?.delete();
       }
-      return {
-        'success': true,
-        'message': 'Account deleted successfully',
-      };
+      return {'success': true, 'message': 'Account deleted successfully'};
     } on FirebaseAuthException catch (e) {
       String errorMessage = _getAuthErrorMessage(e.code);
-      return {
-        'success': false,
-        'message': errorMessage,
-      };
+      return {'success': false, 'message': errorMessage};
     } catch (e) {
       return {
         'success': false,
@@ -240,5 +245,3 @@ class FirebaseAuthService {
     }
   }
 }
-
-
